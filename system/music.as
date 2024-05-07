@@ -1,5 +1,5 @@
 	VarSet 0
-	SetSelectMax 10
+	SetSelectMax 7
 	SetSelectMin 0
 	SelectColor 255,64,64,64,64,64
 	font msmincho,24,0
@@ -35,10 +35,10 @@
 	SelectMes "2.地獄の温泉",1
 	SelectMes "3.紫立ちたる雲の切れ目",2
 	SelectMes "4.星の旅",3
-	SelectMes "5.",4
-	SelectMes "6.",5
-	SelectMes "7.",6
-	SelectMes "8.神々の遊び",7
+	SelectMes "5.無限に続く青空",4
+	SelectMes "6.最後の戦い...ultimate battle.",5
+	SelectMes "7.神々の休息 (エンディングテーマ)",6
+	SelectMes "8.神々の遊び (タイトルテーマ)",7
 	redraw 1
 	await 16
 	loop
