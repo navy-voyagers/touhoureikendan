@@ -1,0 +1,122 @@
+	if stage_frame>100 and stage_frame<200 {
+		BulletColor 255,0,0
+		BulletSetVector 320,240,0.1*(rnd(3)+1),rnd(360),15
+	}
+	if stage_frame>200 and stage_frame<250 {
+		if stage_frame\5=0 {
+			BulletSpeedChange 1.1
+		}
+	}
+
+	if stage_frame=300 : cnt_t=0
+	if stage_frame>300 and stage_frame<350 {
+		if stage_frame\5=0 {
+			repeat 4
+			BulletColor 0,0,255
+			BulletSetVector 320,240,3,cnt_t+cnt*90,20
+			loop
+			cnt_t+3
+		}
+	}
+	if stage_frame=350 : cnt_t=0
+	if stage_frame>400 and stage_frame<450 {
+		if stage_frame\5=0 {
+			repeat 4
+			BulletColor 0,0,255
+			BulletSetVector 320,240,3,cnt_t+cnt*90,20
+			loop
+			cnt_t-3
+		}
+	}
+
+	if stage_frame=500 : cnt_t=0
+	if stage_frame>500 and stage_frame<600 {
+		if stage_frame\5=0 {
+			repeat 4
+			BulletColor 255,255,0
+			BulletSetVector 320,240,3,cnt_t+cnt*90,20
+			loop
+			cnt_t+6
+		}
+	}
+
+	if stage_frame=600 : cnt_t=0
+	if stage_frame>600 and stage_frame<700 {
+		if stage_frame\5=0 {
+			repeat 4
+			BulletColor 255,255,0
+			BulletSetVector 320,240,3,cnt_t+cnt*90,20
+			loop
+			cnt_t-6
+		}
+	}
+
+	if stage_frame=700 {
+		cnt_t=0
+		TempX=0
+		TempY=0
+	}
+	if stage_frame>700 and stage_frame<900 {
+		if stage_frame\5=0 {
+			repeat 4
+			BulletColor 255,255,0
+			BulletSetVector 320,240,3,cnt_t+cnt*90,20
+			BulletColor 255,255,0
+			BulletSetVector 320,240,3,-cnt_t+cnt*90,20
+			loop
+			cnt_t+6
+			if cnt_t>=360 {
+				cnt_t=0
+			}
+		}
+	}
+
+	if stage_frame=1000 : cnt_t=0
+	if stage_frame>1000 and stage_frame<1200 {
+		if stage_frame\5=0 {
+			Temp=sin(deg2rad(cnt_t))*30
+			repeat 6
+			BulletColor 127,255,0
+			BulletSetVector 320,240,3,Temp+cnt*60,30
+			loop
+			cnt_t+15
+			if cnt_t>=360 {
+				cnt_t=0
+			}
+		}
+	}
+
+	if stage_frame=1200 {
+		cnt_t=0
+		repeat_flag=0
+	}
+	if stage_frame>1200 and stage_frame<1400 {
+		if stage_frame\5=0 {
+			Temp=sin(deg2rad(cnt_t))*30
+			repeat 6
+			BulletColor 127,255,0
+			BulletSetVector 320,240,3,Temp+cnt*60,30
+			loop
+			cnt_t-15
+			if cnt_t<=-360 {
+				cnt_t=0
+			}
+		}
+	}
+
+	if stage_frame>1400 and stage_frame<1450 {
+		BulletSetVector rnd(40)+580,rnd(480),5,rnd(360),15
+		BulletSpeedChange -1
+	}
+	if stage_frame>1450 and stage_frame<1600 {
+		BulletReflect
+	}
+
+	if stage_frame>1600 {
+		if repeat_flag<4 {
+			repeat_flag++
+			stage_frame=1400
+		}else{
+			repeat_flag=0
+		}
+	}

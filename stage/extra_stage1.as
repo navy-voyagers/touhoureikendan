@@ -1,0 +1,216 @@
+	if stage_frame>100 and stage_frame<200 {
+		BulletColor 255,0,0
+		BulletSetVector 320,240,0.1*(rnd(3)+1),rnd(360),15
+	}
+	if stage_frame>200 and stage_frame<250 {
+		if stage_frame\5=0 {
+			BulletSpeedChange 1.1
+		}
+	}
+
+	if stage_frame=300 : cnt_t=0
+	if stage_frame>300 and stage_frame<350 {
+		if stage_frame\5=0 {
+			repeat 4
+			BulletColor 0,0,255
+			BulletSetVector 320,240,3,cnt_t+cnt*90,20
+			loop
+			cnt_t+3
+		}
+	}
+	if stage_frame=350 : cnt_t=0
+	if stage_frame>400 and stage_frame<450 {
+		if stage_frame\5=0 {
+			repeat 4
+			BulletColor 0,0,255
+			BulletSetVector 320,240,3,cnt_t+cnt*90,20
+			loop
+			cnt_t-3
+		}
+	}
+
+	if stage_frame=500 : cnt_t=0
+	if stage_frame>500 and stage_frame<600 {
+		if stage_frame\5=0 {
+			repeat 4
+			BulletColor 255,255,0
+			BulletSetVector 320,240,3,cnt_t+cnt*90,20
+			loop
+			cnt_t+6
+		}
+	}
+
+	if stage_frame=600 : cnt_t=0
+	if stage_frame>600 and stage_frame<700 {
+		if stage_frame\5=0 {
+			repeat 4
+			BulletColor 255,255,0
+			BulletSetVector 320,240,3,cnt_t+cnt*90,20
+			loop
+			cnt_t-6
+		}
+	}
+
+	if stage_frame=700 {
+		cnt_t=0
+		TempX=0
+		TempY=0
+	}
+	if stage_frame>700 and stage_frame<900 {
+		if stage_frame\5=0 {
+			repeat 4
+			BulletColor 255,255,0
+			BulletSetVector 320,240,3,cnt_t+cnt*90,20
+			BulletColor 255,255,0
+			BulletSetVector 320,240,3,-cnt_t+cnt*90,20
+			loop
+			cnt_t+6
+			if cnt_t>=360 {
+				cnt_t=0
+			}
+		}
+	}
+
+	if stage_frame=1000 : cnt_t=0
+	if stage_frame>1000 and stage_frame<1200 {
+		if stage_frame\5=0 {
+			Temp=sin(deg2rad(cnt_t))*30
+			repeat 6
+			BulletColor 127,255,0
+			BulletSetVector 320,240,3,Temp+cnt*60,30
+			loop
+			cnt_t+15
+			if cnt_t>=360 {
+				cnt_t=0
+			}
+		}
+	}
+
+	if stage_frame=1200 {
+		cnt_t=0
+		repeat_flag=0
+	}
+	if stage_frame>1200 and stage_frame<1400 {
+		if stage_frame\5=0 {
+			Temp=sin(deg2rad(cnt_t))*30
+			repeat 6
+			BulletColor 127,255,0
+			BulletSetVector 320,240,3,Temp+cnt*60,30
+			loop
+			cnt_t-15
+			if cnt_t<=-360 {
+				cnt_t=0
+			}
+		}
+	}
+
+	if stage_frame>1400 and stage_frame<1450 {
+		BulletSetVector rnd(40)+580,rnd(480),5,rnd(360),15
+		BulletSpeedChange -1
+	}
+	if stage_frame>1450 and stage_frame<1600 {
+		BulletReflect
+	}
+
+	if stage_frame=1600 {
+		if repeat_flag<4 {
+			repeat_flag++
+			stage_frame=1400
+		}else{
+			repeat_flag=0
+		}
+	}
+
+	if stage_frame>1600 and stage_frame<1800 {
+		if stage_frame\5=0 {
+			Temp=sin(deg2rad(cnt_t))*20
+			repeat 6
+			BulletColor 255,0,0
+			BulletSetVector 320,240,3,Temp+cnt*60,30
+			loop
+			repeat 6
+			BulletColor 0,0,255
+			BulletSetVector 320,240,3,Temp+cnt*60+30,30
+			loop
+			cnt_t-15
+			if cnt_t<=-360 {
+				cnt_t=0
+			}
+		}
+	}
+
+	if stage_frame>1800 and stage_frame<2000 {
+		if stage_frame\5=0 {
+			Temp=sin(deg2rad(cnt_t))*40
+			repeat 6
+			BulletColor 255,0,0
+			BulletSetVector 320,240,3,Temp+cnt*60,25
+			loop
+			repeat 6
+			BulletColor 0,0,255
+			BulletSetVector 320,240,3,Temp+cnt*60+30,25
+			loop
+			cnt_t-15
+			if cnt_t<=-360 {
+				cnt_t=0
+			}
+		}
+	}
+
+	if stage_frame=2000 : Temp=0
+	if stage_frame>2000 and stage_frame<2600 {
+		if stage_frame\3=0 {
+			repeat 6
+			BulletColor 255,0,0
+			BulletSetVector 320,240,3,Temp+cnt*60,18
+			loop
+			repeat 6
+			BulletColor 0,0,255
+			BulletSetVector 320,240,3,Temp+cnt*60+30,18
+			loop
+			Temp+5
+			if Temp>=360 {
+				Temp=0
+			}
+		}
+		if stage_frame\50=0 {
+			TempDeg=atan(PlayerInfo(1)-240,PlayerInfo(0)-320)
+			BulletColor 0,0,255
+			BulletSet 320,240,cos(TempDeg)*2,sin(TempDeg)*2,60
+		}
+	}
+
+	if stage_frame>2600 and stage_frame<2650 {
+		repeat 8
+		Bullet2Color 255,0,255
+		Bullet2SetVector 320,240,rnd(3)+3,rnd(360),15
+		loop
+	}
+
+	if stage_frame=2650 {
+		BulletReset
+	}
+
+	if stage_frame>2800 and stage_frame<3000 {
+		BulletColor 255,64,0
+		TempX=580+rnd(40)
+		TempY=rnd(480)
+		BulletSetVector TempX,TempY,3,AimPlayerDeg(TempX,TempY),20
+		BulletColor 0,64,0
+		BulletCircleSet TempX,TempY,double(rnd(10)/3)+2,0,5,15
+	}
+
+	if stage_frame=3000 {
+		cnt_t=0
+	}
+
+	if (stage_frame>3000 and stage_frame<3030)or(stage_frame>3040 and stage_frame<3050) {
+		BulletColor 0,0,255
+		BulletSetVector 620,0,2,180-cnt_t,15
+		BulletColor 0,0,255
+		BulletSetVector 620,480,2,180+cnt_t,15
+	}
+	if stage_frame>3000 and stage_frame<3050 {
+		cnt_t++
+	}
+

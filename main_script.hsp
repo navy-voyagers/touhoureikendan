@@ -1,0 +1,437 @@
+//横スクロールシューティング
+	#packopt name "東方霊剣談"
+
+	ProductMode="//体験版"
+	if ProductMode="体験版" {
+		title "東方霊剣談 体験版"
+	}else{
+		title "東方霊剣談"
+	}
+
+	exist "FullScreen.ini"
+	if strsize!-1 {
+		notesel d
+		noteload "FullScreen.ini"
+		noteget dd,0
+		if dd="START" {
+			fullscreen=1
+		}
+	}
+
+	if fullscreen=1 {
+		chgdisp 1,640,480
+		bgscr 0,640,480,0,0,0
+	}
+
+	exist "user/save.bin"
+	if strsize=-1 {
+		stage_number=6
+		bsave "user/save.bin",stage_number
+	}
+
+	#include "hspogg.as"
+	#include "d3m.hsp"
+
+	#include "module/Bullet.as"
+	#include "module/Bullet2.as"
+	#include "module/Boss.as"
+	#include "module/Enemy.as"
+	#include "module/Select.as"
+	#include "module/PlayerShot.as"
+	#include "module/BackScreen.as"
+	#include "module/LengthCheck.as"
+	#include "module/Bom.as"
+	BackScreenInit
+	dmmini
+	BulletInit
+	Bullet2Init
+	BossInit
+	PlayerShotInit
+	EnemyInit
+	BomInit
+
+	dmmload "res/se/Miss.wav",0,0
+	dmmvol 0,-1000
+
+*title_loop
+
+	dmmstop -1
+	#include "system/title.as"
+
+	//level=0 : easy
+	//level=1 : normal
+	//level=2 : hard
+	//level=3 : lunatic
+	//level=4 : extra
+	Continue_cnt=0
+	MissSum=0			//Miss回数を記録する変数
+*game_loop
+	buffer 20
+	picload "res/pic/player.png"
+	gsel 0,0
+	randomize
+	BulletReset
+	Bullet2Reset
+	EnemyReset
+	BossReset
+	MissCnt=0
+	Ctrl_time=100
+	;dmmplay 0		//あほらしいので消します
+	font msmincho,24,0
+	player_x=30
+	player_y=240
+	stage_frame=0		//ステージのフレーム数
+	Life=50				//Life
+
+	//stage_number=7
+
+	repeat
+	PreTime=d3timer()
+	getkey Esc,27
+	if Esc=1 {
+		break
+	}
+	getkey Ctrl,17
+	if Ctrl=0 and Ctrl_time<100 {
+		Ctrl_time++
+	}
+	if Ctrl_time<=0 {
+		Ctrl=0
+	}
+	if Ctrl=0 {
+		if cnt\2=0 {
+			gosub *KeyChecker
+			PlayerShotMove
+			BossMove
+			EnemyMove
+			gosub *BulletCalc
+			BomCalc
+		}
+	}else{
+		if cnt\4=0 {
+			gosub *KeyChecker
+			PlayerShotMove
+			BossMove
+			EnemyMove
+			gosub *BulletCalc
+			BomCalc
+			Ctrl_time-4
+		}
+	}
+	if ProductMode="体験版" {
+		#include "system/体験版.as"
+	}
+
+	if skip_frame=1 {
+		skip_frame=0
+		continue cnt+1
+	}
+
+	redraw 0
+	gosub *BackScreen
+	gosub *PlayerDraw
+	gosub *CtrlDraw
+	BossDraw
+	EnemyDraw
+	PlayerShotDraw
+	BulletDraw
+	Bullet2Draw
+	BomDraw
+
+	//ステージフレームが5以下の時はステージを隠す
+	if stage_frame<=5 {
+		pos 0,0
+		gmode 0
+		gcopy 1,0,0,640,480
+		pos 100,100
+		color 0,0,0
+		mes "Now Loading..."
+		if StageSaveDataCheck()=1 {
+			gosub *StageSaveDataSave
+		}
+		pos 103,103
+		color 255,255,255
+		mes "Now Loading..."
+		gmode 3,0,0,127
+		await 32
+	}
+
+	//Ending
+	#addition "ending/ending_system.as"
+
+	if Life<=0 {
+		color 255,0,0
+		gmode 3,0,0,64
+		grect 320,240,0,640,480
+		repeat 2
+		pos 97+cnt*3,97+cnt*3
+		if cnt=1 : color 255,255,255 : else : color 0,0,0
+		mes "満身創痍 GameOver..."
+		mes "コンティニュー回数:"+Continue_cnt
+		mes "コンティニューして解放したステージは"
+		mes "スタート時に選択できるようにはなりません。"
+		mes "ノーコンで到達しましょう。"
+		mes "Z key : Continue!!"
+		mes "X key : Exit"
+		loop
+		redraw 1
+		redraw 0
+		repeat
+		stick key
+		if key&2048 {
+			Continue_cnt++
+			Life=30
+			BulletReset
+			Bullet2Reset
+			player_x=30
+			player_y=240
+			MissCnt=0
+			mode="Continue"
+			break
+		}
+		if key&4096 {
+			mode="End"
+			break
+		}
+		await 16
+		loop
+	}
+
+	redraw 1
+	NowTime=d3timer()
+	if Ctrl=0 {
+		if NowTime-PreTimew>16 {
+			skip_frame=1
+		}
+		await 16
+	}else{
+		if NowTime-PreTimew>32 {
+			skip_frame=1
+		}
+		await 32
+	}
+	if mode="End" {
+		break
+	}
+	loop
+
+	dmmstop -1
+	goto *menu_loop
+
+//
+//ここから下は、サブルーチン
+//
+
+*KeyChecker
+	stick key,15+2048,0
+	if key&1 {
+		player_x-player_speed
+	}
+	if key&2 {
+		player_y-player_speed
+	}
+	if key&4 {
+		player_x+player_speed
+	}
+	if key&8 {
+		player_y+player_speed
+	}
+	if key&2048 {
+		if shot_wait\5=0 {
+			PlayerShotSet
+		}
+		shot_wait+
+	}else{
+		shot_wait=0
+	}
+	if key&4096 {
+		BomAutoSet
+	}
+	getkey slow,16
+	if slow=1 {
+		player_speed=2
+	}else{
+		player_speed=5
+	}
+	if player_y<0 : player_y=0
+	if player_y>480 : player_y=480
+	if player_x<0 : player_x=0
+	if player_x>640 : player_x=640
+	return
+
+*BulletCalc
+	#include "system/stage.as"
+	BulletMove
+	Bullet2Move
+	stage_frame++
+	return
+
+*BackScreen
+	//仮
+;	color 64,64,64
+;	boxf
+	gmode 3,0,0,64
+	#include "system/BackScreen.as"
+
+	//テスト用message
+	pos 0,0
+	color 255,255,255
+	mes stage_frame
+
+	//stage number
+	pos 300,0
+	if level>3 {
+		color 0,0,0
+		mes "STAGE:EXTRA"
+	}else{
+		color 0,0,0
+		mes "STAGE:"+stage_number
+	}
+	pos 303,3
+	if level>3 {
+		color 255,255,255
+		mes "STAGE:EXTRA"
+	}else{
+		color 255,255,255
+		mes "STAGE:"+stage_number
+	}
+
+	pos 500,0
+	color 0,0,0
+	switch level
+		case 0
+		mes "Easy"
+		swbreak
+		case 1
+		mes "Normal"
+		swbreak
+		case 2
+		mes "Hard"
+		swbreak
+		case 3
+		mes "Lunatic"
+		swbreak
+		case 4
+		mes "Extra"
+		swbreak
+	swend
+	pos 503,3
+	color 255,255,255
+	switch level
+		case 0
+		mes "Easy"
+		swbreak
+		case 1
+		mes "Normal"
+		swbreak
+		case 2
+		mes "Hard"
+		swbreak
+		case 3
+		mes "Lunatic"
+		swbreak
+		case 4
+		mes "Extra"
+		swbreak
+	swend
+	pos 0,450
+	color 0,0,0
+	mes "MissCounter:"+MissSum+"...残り人数:"+Life
+	pos 3,453
+	color 255,255,255
+	mes "MissCounter:"+MissSum+"...残り人数:"+Life
+	fps=d3getfps()
+	pos 600,440
+	color 0,0,0
+	mes fps
+	pos 603,443
+	color 255,255,255
+	mes fps
+	return
+
+*PlayerDraw
+	//仮
+	;color 0,0,255
+	;circle player_x-15,player_y-15,player_x+15,player_y+15
+
+	//buffer 20を使う
+	pos player_x-25,player_y-32
+	gmode 4,0,0,255
+	color 0,255,0
+	gcopy 20,0,0,50,65
+
+	if slow=1 {
+		color 255,0,0
+		line player_x-15,player_y,player_x+15,player_y
+		line player_x,player_y-15,player_x,player_y+15
+		circle player_x-10,player_y-10,player_x+10,player_y+10,0
+		color 255,255,255
+		circle player_x-5,player_y-5,player_x+5,player_y+5
+		color 255,0,0
+		circle player_x-5,player_y-5,player_x+5,player_y+5,0
+	}
+
+	if BulletMiss()=1 and MissCnt=0 {
+		dmmplay 0
+		//BulletReset
+		MissSum++
+		MissCnt=1
+		Life--
+	}
+	if Bullet2Miss()=1 and MissCnt=0 {
+		dmmplay 0
+		//Bullet2Reset
+		MissSum++
+		MissCnt=1
+		Life--
+	}
+
+	if MissCnt>0 {
+		color 255,0,0
+		circle player_x-MissCnt*15,player_y-MissCnt*15,player_x+MissCnt*15,player_y+MissCnt*15
+		MissCnt++
+		if MissCnt>30 : MissCnt=0
+	}
+
+	return
+
+*CtrlDraw
+	color 127,127,255
+	boxf 640-Ctrl_time,465,640,480
+	return
+
+	//(ステージの切り替わり時に自動保存)
+
+*StageSaveDataLoad
+	bload "user/save.bin",stage_number
+	return
+
+*StageSaveDataSave
+	bsave "user/save.bin",stage_number
+	return
+
+#defcfunc StageSaveDataCheck
+	bload "user/save.bin",stage_number_temp
+	if stage_number_temp<stage_number {
+		return 1			//セーブ対象
+	}
+	return 0			//セーブ非対象
+
+//
+//システム用関数
+//
+#defcfunc PlayerInfo int PlayerInfoPrm1		//プレイヤーの情報を返す関数
+	switch PlayerInfoPrm1
+	case 0		//player_x
+	return player_x
+
+	case 1		//player_y
+	return player_y
+
+	swend
+	return
+
+//弾幕テンプレートスクリプト
+	#include "BulletFunction/1.as"
+
+;Copyright all 2024 COMET & Maple

@@ -1,0 +1,15 @@
+	#packopt name "設定"
+	#packopt hide 1
+	dd=""
+	gsel 0,-1
+	dialog "フルスクリーンにしますか?",2,"System"
+	if stat=6 {
+		notesel dd
+		noteadd "START"
+		notesave "FullScreen.ini"
+	}else{
+		notesel dd
+		noteadd "NOTSTART"
+		notesave "FullScreen.ini"
+	}
+	end

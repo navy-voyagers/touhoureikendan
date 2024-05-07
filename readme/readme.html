@@ -1,0 +1,34 @@
+﻿<html>
+	<head>
+		<meta charset="utf-8">
+		<title>東方霊剣談 Readme</title>
+		<script src="res/main.js"></script>
+	</head>
+	<body>
+		<div>
+			東方霊剣談 Readme.<br>
+			<button onclick="OpenHomepage()">ホームページを開く</button>
+			<button onclick="window.close()">このページを閉じる(ブラウザーによっては動作しない場合があります)</button><br>
+		</div>
+		<div>
+			<h2>東方霊剣談</h2>
+			ある日、結界の向こう側にみた幻想－<br>
+			<button onclick="OpenHowToPlay()">操作方法の説明</button><br>
+			<div id="howtoplay">
+				<b>操作方法</b><br>
+				矢印キー:移動<br>
+				Zキー:ショット<br>
+				Shiftキー:低速移動<br>
+				Ctrlキー:スロー再生<br>
+			</div>
+			<a href="https://sites.google.com/view/comet1">作者の近況</a><br?
+		</div>
+	</body>
+	<script>
+	//以下はページを開いたときに実行されるものです
+	function Start() {
+		var ele = document.getElementById('howtoplay');
+		ele.style.display = 'none';
+	}
+	</script>
+</html>
