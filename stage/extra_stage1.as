@@ -214,3 +214,5 @@
 		cnt_t++
 	}
 
+	if stage_frame>3100 and stage_frame<3200 {
+	}

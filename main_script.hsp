@@ -431,6 +431,9 @@
 	swend
 	return
 
+#defcfunc FrameInfo
+	return stage_frame
+
 //弾幕テンプレートスクリプト
 	#include "BulletFunction/1.as"
 
