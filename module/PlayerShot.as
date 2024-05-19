@@ -1,16 +1,16 @@
 #module PlayerShotModule
 #deffunc PlayerShotInit
-	TOTAL=128
+	TOTAL=256
 	dim PlayerShotX,TOTAL
 	dim PlayerShotY,TOTAL
 	dim PlayerShotExist,TOTAL
 	return
 
-#deffunc PlayerShotSet
+#deffunc PlayerShotSet double PlayerShotSetPrm1 , double PlayerShotSetPrm2
 	repeat TOTAL
 	if PlayerShotExist(cnt)=0 {
-		PlayerShotX(cnt)=PlayerInfo(0)+20
-		PlayerShotY(cnt)=PlayerInfo(1)
+		PlayerShotX(cnt)=PlayerInfo(0)+PlayerShotSetPrm1
+		PlayerShotY(cnt)=PlayerInfo(1)+PlayerShotSetPrm2
 		PlayerShotExist(cnt)=1
 		break
 	}
@@ -20,7 +20,7 @@
 #deffunc PlayerShotMove
 	repeat TOTAL
 	if PlayerShotExist(cnt)=1 {
-		PlayerShotX(cnt)+8
+		PlayerShotX(cnt)+10
 		if PlayerShotX(cnt)>640 {
 			PlayerShotExist(cnt)=0
 		}
@@ -52,12 +52,13 @@
 	swend
 	return "error"
 
-#defcfunc PlayerShotHit int PlayerShotHitPrm1 , int PlayerShotHitPrm2 , int PlayerShotHitPrm3
+#defcfunc PlayerShotHit double PlayerShotHitPrm1 , double PlayerShotHitPrm2 , double PlayerShotHitPrm3
 	Hit=0
-	repeat TOTAL
+	repeat TOTAL-1
 	if (PlayerShotX(cnt)-PlayerShotHitPrm1)*(PlayerShotX(cnt)-PlayerShotHitPrm1)+(PlayerShotY(cnt)-PlayerShotHitPrm2)*(PlayerShotY(cnt)-PlayerShotHitPrm2)<(PlayerShotHitPrm3*PlayerShotHitPrm3) and PlayerShotExist(cnt)=1 {
 		Hit=1
 		PlayerShotExist(cnt)=0
+		break
 	}
 	loop
 	return Hit	//Hit‚µ‚Ä‚é‚È‚ç1A‚µ‚Ä‚È‚¢‚È‚ç0‚ª‹A‚è‚Ü‚·B

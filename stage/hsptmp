@@ -112,11 +112,175 @@
 		BulletReflect
 	}
 
-	if stage_frame>1600 {
+	if stage_frame=1600 {
 		if repeat_flag<4 {
 			repeat_flag++
 			stage_frame=1400
 		}else{
 			repeat_flag=0
 		}
+	}
+
+	if stage_frame>1600 and stage_frame<1800 {
+		if stage_frame\5=0 {
+			Temp=sin(deg2rad(cnt_t))*20
+			repeat 6
+			BulletColor 255,0,0
+			BulletSetVector 320,240,3,Temp+cnt*60,30
+			loop
+			repeat 6
+			BulletColor 0,0,255
+			BulletSetVector 320,240,3,Temp+cnt*60+30,30
+			loop
+			cnt_t-15
+			if cnt_t<=-360 {
+				cnt_t=0
+			}
+		}
+	}
+
+	if stage_frame>1800 and stage_frame<2000 {
+		if stage_frame\5=0 {
+			Temp=sin(deg2rad(cnt_t))*40
+			repeat 6
+			BulletColor 255,0,0
+			BulletSetVector 320,240,3,Temp+cnt*60,25
+			loop
+			repeat 6
+			BulletColor 0,0,255
+			BulletSetVector 320,240,3,Temp+cnt*60+30,25
+			loop
+			cnt_t-15
+			if cnt_t<=-360 {
+				cnt_t=0
+			}
+		}
+	}
+
+	if stage_frame=2000 : Temp=0
+	if stage_frame>2000 and stage_frame<2600 {
+		if stage_frame\3=0 {
+			repeat 6
+			BulletColor 255,0,0
+			BulletSetVector 320,240,3,Temp+cnt*60,18
+			loop
+			repeat 6
+			BulletColor 0,0,255
+			BulletSetVector 320,240,3,Temp+cnt*60+30,18
+			loop
+			Temp+5
+			if Temp>=360 {
+				Temp=0
+			}
+		}
+		if stage_frame\50=0 {
+			TempDeg=atan(PlayerInfo(1)-240,PlayerInfo(0)-320)
+			BulletColor 0,0,255
+			BulletSet 320,240,cos(TempDeg)*2,sin(TempDeg)*2,60
+		}
+	}
+
+	if stage_frame>2600 and stage_frame<2650 {
+		repeat 8
+		Bullet2Color 255,0,255
+		Bullet2SetVector 320,240,rnd(3)+3,rnd(360),15
+		loop
+	}
+
+	if stage_frame=2650 {
+		BulletReset
+	}
+
+	if stage_frame>2800 and stage_frame<3000 {
+		BulletColor 255,64,0
+		TempX=580+rnd(40)
+		TempY=rnd(480)
+		BulletSetVector TempX,TempY,3,AimPlayerDeg(TempX,TempY),20
+		BulletColor 0,64,0
+		BulletCircleSet TempX,TempY,double(rnd(10)/3)+2,0,5,15
+	}
+
+	if stage_frame=3000 {
+		cnt_t=0
+	}
+
+	if (stage_frame>3000 and stage_frame<3030)or(stage_frame>3040 and stage_frame<3050) {
+		BulletColor 0,0,255
+		BulletSetVector 620,0,2.8,180-cnt_t,15
+		BulletColor 0,0,255
+		BulletSetVector 620,480,2.8,180+cnt_t,15
+	}
+	if stage_frame>3000 and stage_frame<3050 {
+		cnt_t++
+	}
+
+	if SFCPoint(3100)=0 : cnt_t=0
+
+	if SFCRange(3100,3130)=0 or SFCRange(3140,3150)=0 {
+		BulletColor 255,0,0
+		BulletSetVector 0,0,2.7,cnt_t,15
+		BulletColor 255,0,0
+		BulletSetVector 0,480,2.7,-cnt_t,15
+	}
+	if SFCRange(3100,3150)=0 {
+		cnt_t++
+	}
+
+	//Extra boss
+	if SFCPoint(3400)=0 {
+		BulletReset
+		Bullet2Reset
+		BossColor 255,0,0
+		BossSet 320,240,2000,1,50
+	}
+	if SFCRange(3450,3500)=0 {
+		if stage_frame\7=0 {
+			repeat 8
+			BulletSetVector 320,240,4,(temp)*(cnt+1),30
+			BulletSetVector 320,240,-4,(temp)*(cnt+1),30
+			loop
+			temp++
+			if temp>45 {
+				temp=0
+			}
+		}
+		if BossInfo(0,0)<1900 {
+			stage_frame=3500
+		}
+	}
+	if SFCPoint(3500)=0 {
+		if BossInfo(0,0)>1900 {
+			stage_frame=3450
+		}
+	}
+
+	if SFCRange(3500,3550)=0 {
+		if stage_frame\10=0 {
+			repeat 6
+			BulletColor 255,0,0
+			BulletSetVector 320,240,(cnt+1),AimPlayerDeg(300+rnd(40),220+rnd(40)),30
+			loop
+			BulletColor 0,0,255
+			BulletCircleSet 320,240,3,AimPlayerDeg(320,240),8,30
+		}
+		if BossInfo(0,0)<1800 {
+			stage_frame=3600
+		}
+	}
+	if SFCPoint(3600)=0 {
+		if BossInfo(0,0)>1800 {
+			stage_frame=3500
+		}
+	}
+
+	if SFCRange(3600,3700)=0 {
+		if stage_frame\30=0 {
+			repeat 5
+			BulletColor 255,0,0
+			BulletCircleSet 320,240,(cnt+2),AimPlayerDeg(300+rnd(40),220+rnd(40)),8,30
+			loop
+		}
+	}
+	if SFCPoint(3700)=0 {
+		stage_frame=3600
 	}

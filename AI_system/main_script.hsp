@@ -1,0 +1,11 @@
+	//AI system
+
+	#include "AI.as"
+
+	repeat
+	redraw 0
+	color 0,0,0
+	boxf
+	redraw 1
+	await 16
+	loop

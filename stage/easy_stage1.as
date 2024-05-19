@@ -46,11 +46,15 @@
 		BulletReflect
 		bullet_x_start--
 	}
+	if stage_frame=3550 {
+		stage_frame=3700
+	}
 	//中ボスIN
 	if stage_frame=3700 {
 		//ここに中ボスを出す命令か、なんか作る。
 		BossColor 255,127,127
 		BossSet 600,240,150,4,50
+		stage_frame=4000
 	}
 	//ボスが倒された場合、ループを抜ける
 	if stage_frame>3700 and stage_frame<5300 {

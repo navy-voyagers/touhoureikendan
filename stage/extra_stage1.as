@@ -206,13 +206,116 @@
 
 	if (stage_frame>3000 and stage_frame<3030)or(stage_frame>3040 and stage_frame<3050) {
 		BulletColor 0,0,255
-		BulletSetVector 620,0,2,180-cnt_t,15
+		BulletSetVector 620,0,2.8,180-cnt_t,15
 		BulletColor 0,0,255
-		BulletSetVector 620,480,2,180+cnt_t,15
+		BulletSetVector 620,480,2.8,180+cnt_t,15
 	}
 	if stage_frame>3000 and stage_frame<3050 {
 		cnt_t++
 	}
 
-	if stage_frame>3100 and stage_frame<3200 {
+	if SFCPoint(3100)=0 : cnt_t=0
+
+	if SFCRange(3100,3130)=0 or SFCRange(3140,3150)=0 {
+		BulletColor 255,0,0
+		BulletSetVector 0,0,2.7,cnt_t,15
+		BulletColor 255,0,0
+		BulletSetVector 0,480,2.7,-cnt_t,15
+	}
+	if SFCRange(3100,3150)=0 {
+		cnt_t++
+	}
+
+	//Extra boss
+	if SFCPoint(3400)=0 {
+		BulletReset
+		Bullet2Reset
+		BossColor 255,0,0
+		BossSet 320,240,2000,1,50
+	}
+	if SFCRange(3450,3500)=0 {
+		if stage_frame\7=0 {
+			repeat 8
+			BulletSetVector 320,240,4,(temp)*(cnt+1),30
+			BulletSetVector 320,240,-4,(temp)*(cnt+1),30
+			loop
+			temp++
+			if temp>45 {
+				temp=0
+			}
+		}
+		if BossInfo(0,0)<1900 {
+			stage_frame=3500
+		}
+	}
+	if SFCPoint(3500)=0 {
+		if BossInfo(0,0)>1900 {
+			stage_frame=3450
+		}
+	}
+
+	if SFCRange(3500,3550)=0 {
+		if stage_frame\10=0 {
+			repeat 6
+			BulletColor 255,0,0
+			BulletSetVector 320,240,(cnt+1),AimPlayerDeg(300+rnd(40),220+rnd(40)),30
+			loop
+			BulletColor 0,0,255
+			BulletCircleSet 320,240,3,AimPlayerDeg(320,240),8,30
+		}
+		if BossInfo(0,0)<1800 {
+			stage_frame=3600
+		}
+	}
+	if SFCPoint(3600)=0 {
+		if BossInfo(0,0)>1800 {
+			stage_frame=3500
+		}
+	}
+
+	if SFCRange(3600,3700)=0 {
+		if stage_frame\30=0 {
+			repeat 5
+			BulletColor 255,0,0
+			BulletCircleSet 320,240,(cnt+2),AimPlayerDeg(300+rnd(40),220+rnd(40)),8,30
+			loop
+		}
+	}
+	if SFCPoint(3700)=0 {
+		if BossInfo(0,0)>1700 {
+			stage_frame=3600
+		}else{
+			cnt_t=0
+		}
+	}
+
+	if SFCRange(3700,3800)=0 {
+		if stage_frame\40=0 {
+			repeat 3
+				repeat 3
+					BulletColor 255,0,0
+					BulletSetVector 320,240,cnt_t+2,AimPlayerDeg(320,240)+30-(cnt)*30,30
+				loop
+				cnt_t++
+			loop
+			cnt_t=0
+		}
+	}
+	if SFCPoint(3800)=0 {
+		if BossInfo(0,0)>1600 {
+			stage_frame=3700
+		}
+	}
+
+	if SFCRange(3800,3900)=0 {
+		if stage_frame/5=0 {
+			repeat 5
+				
+			loop
+		}
+	}
+	if SFCPoint(3900)=0 {
+		if BossInfo(0,0)>1500 {
+			stage_frame=4000
+		}
 	}

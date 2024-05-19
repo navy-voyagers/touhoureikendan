@@ -41,6 +41,7 @@
 	#include "module/BackScreen.as"
 	#include "module/LengthCheck.as"
 	#include "module/Bom.as"
+	#include "module/StageFrameChecker.as"
 	BackScreenInit
 	dmmini
 	BulletInit
@@ -75,7 +76,9 @@
 	EnemyReset
 	BossReset
 	MissCnt=0
-	Ctrl_time=100
+	Ctrl_time=0
+	Bom_time=0
+	Bom_cool_time=0
 	;dmmplay 0		//あほらしいので消します
 	font msmincho,24,0
 	player_x=30
@@ -236,22 +239,58 @@
 	if key&8 {
 		player_y+player_speed
 	}
-	if key&2048 {
-		if shot_wait\5=0 {
-			PlayerShotSet
-		}
-		shot_wait+
-	}else{
-		shot_wait=0
-	}
-	if key&4096 {
-		BomAutoSet
-	}
 	getkey slow,16
 	if slow=1 {
 		player_speed=2
 	}else{
 		player_speed=5
+	}
+	if key&2048 {
+		if slow=1 {
+			if shot_wait\10=0 {
+				repeat 3
+				PlayerShotSet cos(deg2rad(Shot_Deg_Temp+120*cnt))*40-10,sin(deg2rad(Shot_Deg_Temp+120*cnt))*40-2
+				loop
+				Shot_Deg_Temp+20
+				if Shot_Deg_Temp>=360 {
+					Shot_Deg_Temp=0
+				}
+			}
+		}else{
+			if shot_wait\5=0 {
+				PlayerShotSet 20,-2
+				if Ctrl_time=100 and shot_wait\50=0 and shot_wait!0 {
+					repeat 6
+					PlayerShotSet cos(deg2rad(Shot_Deg_Temp+60*cnt))*80-10,sin(deg2rad(Shot_Deg_Temp+60*cnt))*80-2
+					loop
+					Shot_Deg_Temp+20
+					if Shot_Deg_Temp>=360 {
+						Shot_Deg_Temp=0
+					}
+				}
+			}
+		}
+		shot_wait++
+	}else{
+		shot_wait=0
+	}
+	if key&4096 {
+		if Ctrl_time=100 and Bom_cool_time=0 {
+			Ctrl_time-400
+			Bom_time=40
+			Bom_cool_time=4000
+		}
+	}
+	if Bom_time!0 {
+		if Bom_time\10=0 {
+			BomAutoSet
+		}
+		Bom_time--
+	}
+	if Bom_time=0 {
+		if Bom_cool_time!0 {
+			Bom_cool_time--
+		}
 	}
 	if player_y<0 : player_y=0
 	if player_y>480 : player_y=480
@@ -396,8 +435,14 @@
 	return
 
 *CtrlDraw
-	color 127,127,255
+	if Ctrl_time=100 : color 127,255,127 : else : color 127,127,255
 	boxf 640-Ctrl_time,465,640,480
+	if Bom_cool_time!0 {
+		//Bom Cool Time bar
+		color 255-(Bom_cool_time/20),0,(Bom_cool_time/20)
+		boxf 640-(Bom_cool_time/8),30,640,40
+		color 255,255,255
+	}
 	return
 
 	//(ステージの切り替わり時に自動保存)
