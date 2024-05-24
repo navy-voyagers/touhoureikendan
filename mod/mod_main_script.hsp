@@ -1,0 +1,6 @@
+	//Mod main script
+
+	#module
+	#deffunc ModInit
+		return
+	#global
