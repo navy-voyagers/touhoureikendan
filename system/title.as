@@ -4,6 +4,9 @@
 	picload "res/title/logo.png"
 	gsel 0,0
 
+	dmmload "res/bgm/title.ogg",0,1
+	dmmplay 0
+
 	repeat
 	//ƒ^ƒCƒgƒ‹‰æ–Ê
 	stick key
@@ -111,6 +114,8 @@
 
 	if SelectInfo(0)=2 {
 		#include "system/music.as"
+		dmmload "res/bgm/title.ogg",0,1
+		dmmplay 0
 		goto *menu_loop
 	}
 

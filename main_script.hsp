@@ -31,6 +31,7 @@
 
 	#include "hspogg.as"
 	#include "d3m.hsp"
+	//#include "mod_joystick2.as"
 
 	#include "module/Bullet.as"
 	#include "module/Bullet2.as"
@@ -219,6 +220,10 @@
 	loop
 
 	dmmstop -1
+
+	dmmload "res/bgm/title.ogg",0,1
+	dmmplay 0
+
 	goto *menu_loop
 
 //

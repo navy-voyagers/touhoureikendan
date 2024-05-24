@@ -4,7 +4,7 @@
 	//musicload
 	if level=4 {
 		if stage_frame=5 {
-			dmmload "res/bgm/stage_extra.ogg",1,1
+			dmmload "res/bgm/stage7.ogg",1,1
 			dmmplay 1
 		}
 	}else{
