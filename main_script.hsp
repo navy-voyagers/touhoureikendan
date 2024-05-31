@@ -90,6 +90,7 @@
 	//stage_number=7
 
 	repeat
+	redraw 0
 	PreTime=d3timer()
 	getkey Esc,27
 	if Esc=1 {
@@ -131,7 +132,6 @@
 		continue cnt+1
 	}
 
-	redraw 0
 	gosub *BackScreen
 	gosub *PlayerDraw
 	gosub *CtrlDraw
@@ -221,8 +221,8 @@
 
 	dmmstop -1
 
-	dmmload "res/bgm/title.ogg",0,1
-	dmmplay 0
+	dmmload "res/bgm/title.ogg",20,1
+	dmmplay 20
 
 	goto *menu_loop
 
@@ -432,7 +432,11 @@
 
 	if MissCnt>0 {
 		color 255,0,0
-		circle player_x-MissCnt*15,player_y-MissCnt*15,player_x+MissCnt*15,player_y+MissCnt*15
+		repeat 15
+		circle player_x-MissCnt*(cnt+1),player_y-MissCnt*(cnt+1),player_x+MissCnt*(cnt+1),player_y+MissCnt*(cnt+1),0
+		circle player_x-MissCnt*(cnt+1),player_y-MissCnt*(cnt+2),player_x+MissCnt*(cnt+1),player_y+MissCnt*(cnt+2),0
+		circle player_x-MissCnt*(cnt+2),player_y-MissCnt*(cnt+1),player_x+MissCnt*(cnt+2),player_y+MissCnt*(cnt+1),0
+		loop
 		MissCnt++
 		if MissCnt>30 : MissCnt=0
 	}

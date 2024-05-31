@@ -1,11 +1,29 @@
 	if stage_frame>100 and stage_frame<200 {
 		BulletColor 255,0,0
 		BulletSetVector 320,240,0.1*(rnd(3)+1),rnd(360),15
+		repeat 36
+		color 255,255,255
+		line 640,0,cos(deg2rad(cnt_t+cnt*10))*640,sin(deg2rad(cnt_t+cnt*10))*640
+		line 640,480,cos(deg2rad(cnt_t+cnt*10))*640,sin(deg2rad(cnt_t+cnt*10))*640
+		loop
+		if stage_frame\3=0 {
+			cnt_t++
+			if cnt_t>360 {
+				cnt_t=0
+			}
+		}
 	}
+	if stage_frame=200 : cnt_t=0
 	if stage_frame>200 and stage_frame<250 {
 		if stage_frame\5=0 {
 			BulletSpeedChange 1.1
 		}
+		color 255,255,255
+		repeat 32
+		line 320+cos(deg2rad(cnt_t+cnt*20))*cnt_t,240+sin(deg2rad(cnt_t+cnt*20))*cnt_t,320+cos(deg2rad(cnt_t+(cnt+1)*20))*(cnt_t+1),240+sin(deg2rad(cnt_t+(cnt+1)*20))*(cnt_t+1)
+		line 320+cos(deg2rad(-cnt_t+cnt*20))*cnt_t,240+sin(deg2rad(-cnt_t+cnt*20))*cnt_t,320+cos(deg2rad(-cnt_t+(cnt+1)*20))*(cnt_t+1),240+sin(deg2rad(-cnt_t+(cnt+1)*20))*(cnt_t+1)
+		loop
+		cnt_t+3
 	}
 
 	if stage_frame=300 : cnt_t=0
@@ -14,6 +32,8 @@
 			repeat 4
 			BulletColor 0,0,255
 			BulletSetVector 320,240,3,cnt_t+cnt*90,20
+			color 255,255,255
+			line 320,240,320+cos(deg2rad(cnt_t+cnt*90))*500,240+sin(deg2rad(cnt_t+cnt*90))*500
 			loop
 			cnt_t+3
 		}
@@ -24,6 +44,8 @@
 			repeat 4
 			BulletColor 0,0,255
 			BulletSetVector 320,240,3,cnt_t+cnt*90,20
+			color 255,255,255
+			line 320,240,320+cos(deg2rad(cnt_t+cnt*90))*500,240+sin(deg2rad(cnt_t+cnt*90))*500
 			loop
 			cnt_t-3
 		}
@@ -38,6 +60,8 @@
 			loop
 			cnt_t+6
 		}
+		color 255,255,255
+		line 320,240,320+cos(deg2rad(cnt_t+cnt*90))*500,240+sin(deg2rad(cnt_t+cnt*90))*500
 	}
 
 	if stage_frame=600 : cnt_t=0
@@ -49,6 +73,8 @@
 			loop
 			cnt_t-6
 		}
+		color 255,255,255
+		line 320,240,320+cos(deg2rad(cnt_t+cnt*90))*500,240+sin(deg2rad(cnt_t+cnt*90))*500
 	}
 
 	if stage_frame=700 {
@@ -300,6 +326,13 @@
 			loop
 			cnt_t=0
 		}
+		if stage_frame\20=0 {
+			temp=rnd(360)
+			repeat 5
+			BulletColor 255,200,127
+			BulletCircleSet 320,240,(cnt+2),temp,8,18
+			loop
+		}
 	}
 	if SFCPoint(3800)=0 {
 		if BossInfo(0,0)>1600 {
@@ -308,14 +341,178 @@
 	}
 
 	if SFCRange(3800,3900)=0 {
-		if stage_frame/5=0 {
+		if stage_frame\10=0 {
+			temp_x=500+rnd(120)
+			temp_y=rnd(480)
+			temp=rnd(360)
 			repeat 5
-				
+				BulletColor 200,255,127
+				BulletCircleSet temp_x,temp_y,(cnt+2),temp,8,18
 			loop
 		}
 	}
 	if SFCPoint(3900)=0 {
 		if BossInfo(0,0)>1500 {
+			stage_frame=3800
+		}
+	}
+
+	if SFCRange(3900,4000)=0 {
+		if stage_frame\10=0 {
+			repeat 2
+				temp_x=500+rnd(120)
+				temp_y=rnd(480)
+				temp=rnd(360)
+				repeat 5
+					if cnt=0 : BulletColor 200,255,127 : else : BulletColor 255,0,0
+					BulletCircleSet temp_x,temp_y,(cnt+2),temp,8,18
+				loop
+			loop
+		}
+	}
+	if SFCPoint(4000)=0 {
+		if BossInfo(0,0)>1300 {
+			stage_frame=3900
+		}
+	}
+
+	if SFCRange(4000,4200)=0 {
+		if stage_frame<4150 {
+			if stage_frame\20=0 {
+				repeat 2
+					temp_x=500+rnd(120)
+					temp_y=rnd(480)
+					temp=rnd(360)
+					repeat 5
+						if cnt=0 : BulletColor 200,255,127 : else : BulletColor 255,0,0
+						BulletCircleSet temp_x,temp_y,(cnt+2),temp,8,18
+					loop
+				loop
+			}
+			if stage_frame\5=0 {
+				cnt_t+2
+				if cnt_t>360 {
+					cnt_t=0
+				}
+			}
+		}else{
+			if stage_frame\3=0 {
+				BulletColor 25,160,255
+				BulletCircleSet 640,0,8,cnt_t,36,15
+				BulletCircleSet 640,480,8,-cnt_t,36,15
+			}
+		}
+		repeat 36
+		color sin(deg2rad(cnt_t))*127+127,sin(deg2rad(cnt_t+120))*127+127,sin(deg2rad(cnt_t+240))*127+127
+		line 640,0,cos(deg2rad(cnt_t+cnt*10))*640,sin(deg2rad(cnt_t+cnt*10))*640
+		line 640,480,cos(deg2rad(-cnt_t+cnt*10))*640,sin(deg2rad(-cnt_t+cnt*10))*640
+		loop
+	}
+	if SFCPoint(4200)=0 {
+		if BossInfo(0,0)>1000 {
 			stage_frame=4000
 		}
+	}
+
+	if stage_frame=4200 : cnt_t=0
+
+	if SFCRange(4200,4500)=0 {
+		if stage_frame<4350 {
+			color 255,255,255
+			repeat 32
+			line 320+cos(deg2rad(cnt_t+cnt*20))*cnt_t,240+sin(deg2rad(cnt_t+cnt*20))*cnt_t,320+cos(deg2rad(cnt_t+(cnt+1)*20))*(cnt_t+1),240+sin(deg2rad(cnt_t+(cnt+1)*20))*(cnt_t+1)
+			line 320+cos(deg2rad(-cnt_t+cnt*20))*cnt_t,240+sin(deg2rad(-cnt_t+cnt*20))*cnt_t,320+cos(deg2rad(-cnt_t+(cnt+1)*20))*(cnt_t+1),240+sin(deg2rad(-cnt_t+(cnt+1)*20))*(cnt_t+1)
+			loop
+			if stage_frame\4=0 {
+				repeat 5
+					temp=rnd(360)
+					BulletColor sin(deg2rad(cnt_t))*127+127,sin(deg2rad(cnt_t+120))*127+127,sin(deg2rad(cnt_t+240))*127+127
+					BulletSetVector 320+cos(deg2rad(temp))*cnt_t,240+sin(deg2rad(temp))*cnt_t,0.1,temp+180,15
+				loop
+				cnt_t+7
+			}
+		}else : if stage_frame<4400 {
+			BulletSpeedChange 1.06
+		}
+	}
+	if SFCPoint(4600)=0 {
+		if BossInfo(0,0)>500 {
+			cnt_t=0
+			stage_frame=4200
+		}
+	}
+
+	if SFCRange(4600,4700)=0 {
+		if stage_frame\15=0 {
+			BulletColor 127,255,0
+			BulletCircleSet 640,480,8,cnt_t,36,15
+			BulletColor 0,255,127
+			BulletCircleSet 640,0,8,-cnt_t,36,15
+			cnt_t++
+		}
+		if stage_frame\30=0 {
+			BulletCircleSet 320,240,1,AimPlayerDeg(320,240),36,20
+		}
+		repeat 36
+			color sin(deg2rad(cnt*36+cnt_tt))*127+127,sin(deg2rad(cnt*36+cnt_tt+120))*127+127,sin(deg2rad(cnt*36+cnt_tt+240))*127+127
+			line 320,240,320+cos(deg2rad(cnt*10+cnt_tt))*500,240+sin(deg2rad(cnt*10+cnt_tt))*500
+			line 320,240,320+cos(deg2rad(cnt*10-cnt_tt))*500,240+sin(deg2rad(cnt*10-cnt_tt))*500
+		loop
+		cnt_tt+3
+		if cnt_tt>360 {
+			cnt_tt=0
+		}
+		if cnt_t>360 {
+			cnt_t=0
+		}
+	}
+	if SFCPoint(4700)=0 {
+		if BossInfo(0,0)>300 {
+			cnt_tt=0
+			stage_frame=4500
+		}
+	}
+
+	if SFCRange(4700,4900)=0 {
+		//ƒ‰ƒXƒg[
+		repeat 36
+			color 255,0,0
+			line 320,240,320+cos(deg2rad(cnt*10+cnt_tt))*500,240+sin(deg2rad(cnt*10+cnt_tt))*500
+			color 0,0,255
+			line 320,240,320+cos(deg2rad(cnt*10-cnt_tt))*500,240+sin(deg2rad(cnt*10-cnt_tt))*500
+		loop
+		if stage_frame\30=0 {
+			BulletColor 255,0,0
+			BulletCircleSet 320,240,1,cnt_tt,18,20
+			BulletColor 0,0,255
+			BulletCircleSet 320,240,2,cnt_tt+3,18,20
+			BulletColor 0,127,0
+			BulletCircleSet 320,240,3,cnt_tt+6,18,20
+		}
+		if stage_frame\15=0 {
+			BulletColor 127,255,0
+			BulletCircleSet 640,480,5,cnt_t,36,15
+			BulletColor 0,255,127
+			BulletCircleSet 640,0,5,-cnt_t,36,15
+			cnt_t++
+			if cnt_t>360 {
+				cnt_t=0
+			}
+		}
+		if stage_frame\15=0 {
+			BulletSpeedChange 1.05
+		}
+		cnt_tt++
+		if cnt_tt>360 {
+			cnt_tt=0
+		}
+	}
+	if SFCPoint(4900)=0 {
+		if BossInfo(0,0)>0 {
+			stage_frame=4700
+		}
+	}
+
+	if SFCPoint(5300)=0 {
+		stage_number++
 	}

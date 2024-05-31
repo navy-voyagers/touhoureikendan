@@ -1,7 +1,12 @@
 	if level=4 {
-		//extra stage
-		color 64,0,0
-		boxf
+		if stage_frame=10 {
+			BackScreenLoad "res/pic/stage_extra1.png",1
+			BackScreenMoveSet 1,0,0
+		}else{
+			BackScreenMove 1
+			BackScreenDraw 1
+		}
+		//Boss‚É“ü‚é’¼‘O‚ÉØ‚è‘Ö‚¦‚½‚¢
 	}else{
 		if stage_number=1 {
 			if stage_frame=10 {

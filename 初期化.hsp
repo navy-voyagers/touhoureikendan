@@ -1,0 +1,13 @@
+
+	#packopt name "‰Šú‰»"
+	#packopt hide 1
+
+	dialog "‰Šú‰»‚µ‚Ü‚·‚©?",3,"System"
+	if stat=6 {
+		b=1
+		bsave "user/save.bin",b
+		dialog "Às‚µ‚Ü‚µ‚½",0,"System"
+	}else{
+		dialog "’†~‚³‚ê‚Ü‚µ‚½",1,"System"
+	}
+	end

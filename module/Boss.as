@@ -14,16 +14,16 @@
 	dim BossSize,BOSS_TOTAL
 	dim BossMoveSw,BOSS_TOTAL
 
-	sdim BossPic,1024,BOSS_TOTAL
-	dim BossPicBuffer,BOSS_TOTAL
+;	sdim BossPic,1024,BOSS_TOTAL
+;	dim BossPicBuffer,BOSS_TOTAL
 
 	dim BossColorR,BOSS_TOTAL
 	dim BossColorG,BOSS_TOTAL
 	dim BossColorB,BOSS_TOTAL
 
-;	BossPicture—p‚ÌBuffer
+	//BossPicture—p‚ÌBuffer
 ;	repeat BOSS_TOTAL
-;	buffer cnt+1
+;	buffer cnt+40
 ;	loop
 
 	gsel 0,0

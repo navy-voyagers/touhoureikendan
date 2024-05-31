@@ -92,7 +92,13 @@
 	dmmload "res/se/Miss.wav",0,0
 	dmmvol 0,-1000
 
+
+		BossColor 255,0,0
+		BossSet 320,240,300,1,50
+
+
 	repeat
+	redraw 0
 	PreTime=d3timer()
 	getkey Esc,27
 	if Esc=1 {
@@ -132,7 +138,6 @@
 		continue cnt+1
 	}
 
-	redraw 0
 	gosub *BackScreen
 	gosub *PlayerDraw
 	gosub *CtrlDraw
@@ -357,7 +362,11 @@
 
 	if MissCnt>0 {
 		color 255,0,0
-		circle player_x-MissCnt*15,player_y-MissCnt*15,player_x+MissCnt*15,player_y+MissCnt*15
+		repeat 15
+		circle player_x-MissCnt*(cnt+1),player_y-MissCnt*(cnt+1),player_x+MissCnt*(cnt+1),player_y+MissCnt*(cnt+1),0
+		circle player_x-MissCnt*(cnt+1),player_y-MissCnt*(cnt+2),player_x+MissCnt*(cnt+1),player_y+MissCnt*(cnt+2),0
+		circle player_x-MissCnt*(cnt+2),player_y-MissCnt*(cnt+1),player_x+MissCnt*(cnt+2),player_y+MissCnt*(cnt+1),0
+		loop
 		MissCnt++
 		if MissCnt>30 : MissCnt=0
 	}

@@ -4,8 +4,8 @@
 	picload "res/title/logo.png"
 	gsel 0,0
 
-	dmmload "res/bgm/title.ogg",0,1
-	dmmplay 0
+	dmmload "res/bgm/title.ogg",20,1
+	dmmplay 20
 
 	repeat
 	//ƒ^ƒCƒgƒ‹‰æ–Ê
@@ -114,8 +114,8 @@
 
 	if SelectInfo(0)=2 {
 		#include "system/music.as"
-		dmmload "res/bgm/title.ogg",0,1
-		dmmplay 0
+		dmmload "res/bgm/title.ogg",20,1
+		dmmplay 20
 		goto *menu_loop
 	}
 
