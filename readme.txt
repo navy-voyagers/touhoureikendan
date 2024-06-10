@@ -1,11 +1,17 @@
-���Q�[���̐�����
+＜ゲームの説明＞
 
-�@���̃Q�[���͉��X�N���[���V���[�e�B���O�Q�[���ł��B
-�ꉞ�����v���W�F�N�g�񎟑n���i�ł��B
+　このゲームは横スクロールシューティングゲームです。
+一応東方プロジェクト二次創作作品です。
 
+操作方法の説明　　　ゲーム中　メニュー等
+上下左右矢印キー：移動　選択
+Zキー：ショット　決定
+Xキー：ボム　キャンセル
+Ctrl：スロースイッチ　ー
+Shift：低速移動　ー
 
-�����p�����f�ށ�
-�E�w�i�摜��
-	AIPICT�ihttps://aipict.com/�j
-�E���ʉ�
-	���ʉ����{�ihttps://soundeffect-lab.info/�j
+＜利用した素材＞
+・背景画像等
+	AIPICT（https://aipict.com/）
+・効果音
+	効果音ラボ（https://soundeffect-lab.info/）
